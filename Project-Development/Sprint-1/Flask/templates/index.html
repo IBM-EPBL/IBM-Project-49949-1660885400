@@ -17,21 +17,50 @@
   </head>
   <body>
     <main>
-      <div class="container">
-        <h1>
-          <span class="ai">AI</span>
-          <span>
-            <span>NUTRITION</span>
-            <span>ANALYZER</span>
-          </span>
-        </h1>
-        <p class="description">
-          Diet is the essential key to all successful healing. Without a
-          properly balanced diet, the effectiveness of herbal treatment is very
-          limited
-        </p>
-        <button>Try it now</button>
-      </div>
+      <section class="hero">
+        <div>
+          <h1>
+            <span class="ai">AI</span>
+            <span>
+              <span>NUTRITION</span>
+              <span>ANALYZER</span>
+            </span>
+          </h1>
+          <p class="description">
+            Diet is the essential key to all successful healing. Without a
+            properly balanced diet, the effectiveness of herbal treatment is
+            very limited
+          </p>
+          <a href="#predict">Try it now</a>
+        </div>
+      </section>
+
+      <section class="predict" id="predict">
+        <h2>Classify your Image</h2>
+        <div>
+          <div class="upload-container">
+            <img
+              src="{{ url_for('static', filename='img/upload_icon.svg') }}"
+              alt="upload file"
+            />
+            <div>
+              <p>Drag and drop or &nbsp;</p>
+              <label>
+                <span>browse</span>
+                <input type="file" accept="image/*" hidden id="upload" />
+              </label>
+            </div>
+          </div>
+          <div class="result-container">
+            <p>WE USE MACHINE LEARNING MODAL TO CLASSIFY YOUR IMAGE!</p>
+            <p>
+              Machine intelligence is the last invention that humanity will ever
+              need to make
+            </p>
+            <button>Classify</button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
