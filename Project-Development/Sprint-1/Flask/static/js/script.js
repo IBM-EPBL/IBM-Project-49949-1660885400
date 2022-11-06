@@ -3,6 +3,12 @@ const uploadedImage = document.querySelector(`[data-item="uploaded-image"]`);
 const uploadInput = document.querySelector(`[data-item="upload-input"]`);
 const changeImageBtn = document.querySelector(`[data-item="change-image"]`);
 const classifyBtn = document.querySelector(`[data-item="classify-btn"]`);
+const predictionContainer = document.querySelector(
+  `[data-item="prediction-container"]`
+);
+const predictedOutput = document.querySelector(
+  `[data-item="predicted-output"]`
+);
 
 const highlight = (event) => {
   event.preventDefault();
@@ -44,6 +50,7 @@ uploadInput.addEventListener("change", (event) => {
 });
 
 changeImageBtn.addEventListener("click", (event) => {
+  uploadInput.value = null;
   uploadInput.click();
 });
 
@@ -59,10 +66,14 @@ async function predict(file) {
   data.append("file", file);
 
   try {
-    await fetch("/api/predict", {
+    const response = await fetch("/api/predict", {
       method: "POST",
       body: data,
     });
+    const responseData = await response.json();
+    const output = responseData.label;
+    predictedOutput.innerText = output;
+    predictionContainer.classList.remove("hidden");
   } catch (err) {
     console.error(err);
   }
