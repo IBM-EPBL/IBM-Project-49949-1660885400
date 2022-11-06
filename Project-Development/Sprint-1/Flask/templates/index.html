@@ -38,6 +38,12 @@
       <section class="predict" id="predict">
         <h2>Classify your Image</h2>
         <div>
+          <img
+            src=""
+            alt="uploaded"
+            class="uploaded-image hidden"
+            data-item="uploaded-image"
+          />
           <div class="upload-container" data-item="file-drop-area">
             <img
               src="{{ url_for('static', filename='img/upload_icon.svg') }}"
@@ -47,7 +53,13 @@
               <p>Drag and drop or &nbsp;</p>
               <label>
                 <span>browse</span>
-                <input type="file" accept="image/*" hidden id="upload" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  id="upload"
+                  data-item="upload-input"
+                />
               </label>
             </div>
           </div>
@@ -57,7 +69,12 @@
               Machine intelligence is the last invention that humanity will ever
               need to make
             </p>
-            <button class="hidden" data-item="classify-btn">Classify</button>
+            <div>
+              <button class="secondary hidden" data-item="change-image">
+                Change Image
+              </button>
+              <button class="hidden" data-item="classify-btn">Classify</button>
+            </div>
           </div>
         </div>
       </section>

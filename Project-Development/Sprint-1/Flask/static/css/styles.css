@@ -7,7 +7,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 main > section {
@@ -98,6 +98,12 @@ main > section {
   border-radius: 0.4em;
 }
 
+.predict .uploaded-image {
+  flex: 1;
+  max-width: 45%;
+  object-fit: contain;
+}
+
 .predict .upload-container img {
   width: 9em;
   height: 4.1em;
@@ -127,6 +133,12 @@ main > section {
 
 .result-container button {
   border: none;
+}
+
+.result-container button.secondary {
+  background-color: #fff;
+  color: #000;
+  border: 0.1em solid #6bc75d;
 }
 
 .file-enter {
