@@ -38,7 +38,7 @@
       <section class="predict" id="predict">
         <h2>Classify your Image</h2>
         <div>
-          <div class="upload-container">
+          <div class="upload-container" data-item="file-drop-area">
             <img
               src="{{ url_for('static', filename='img/upload_icon.svg') }}"
               alt="upload file"
@@ -57,10 +57,15 @@
               Machine intelligence is the last invention that humanity will ever
               need to make
             </p>
-            <button>Classify</button>
+            <button class="hidden" data-item="classify-btn">Classify</button>
           </div>
         </div>
       </section>
     </main>
+
+    <script
+      defer
+      src="{{ url_for('static', filename='js/script.js') }}"
+    ></script>
   </body>
 </html>

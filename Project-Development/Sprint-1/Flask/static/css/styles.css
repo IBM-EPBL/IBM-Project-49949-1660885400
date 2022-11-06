@@ -128,3 +128,17 @@ main > section {
 .result-container button {
   border: none;
 }
+
+.file-enter {
+  position: relative;
+}
+
+.file-enter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0007;
+}
