@@ -3,12 +3,17 @@ const uploadedImage = document.querySelector(`[data-item="uploaded-image"]`);
 const uploadInput = document.querySelector(`[data-item="upload-input"]`);
 const changeImageBtn = document.querySelector(`[data-item="change-image"]`);
 const classifyBtn = document.querySelector(`[data-item="classify-btn"]`);
+const predictionIntro = document.querySelector(
+  `[data-item="prediction-intro"]`
+);
 const predictionContainer = document.querySelector(
   `[data-item="prediction-container"]`
 );
-const predictedOutput = document.querySelector(
-  `[data-item="predicted-output"]`
+const predictedOutput = predictionContainer.querySelector(`h2`);
+const predictionTable = document.querySelector(
+  `[data-item="prediction-table"]`
 );
+const predictedTableBody = predictionTable.querySelector("tbody");
 
 const highlight = (event) => {
   event.preventDefault();
@@ -42,6 +47,7 @@ uploadInput.addEventListener("change", (event) => {
     const url = URL.createObjectURL(file);
     uploadedImage.src = url;
 
+    classifyBtn.disabled = false;
     uploadedImage.classList.remove("hidden");
     fileDropArea.classList.add("hidden");
     changeImageBtn.classList.remove("hidden");
@@ -65,14 +71,49 @@ async function predict(file) {
   const data = new FormData();
   data.append("file", file);
 
+  classifyBtn.disabled = true;
   try {
     const response = await fetch("/api/predict", {
       method: "POST",
       body: data,
     });
     const responseData = await response.json();
-    const output = responseData.label;
-    predictedOutput.innerText = output;
+    const label = responseData.label;
+    const nutrition = responseData.nutrition;
+
+    if (nutrition) {
+      predictionTable.classList.remove("hidden");
+      predictedTableBody.innerHTML = "";
+      Object.keys(nutrition).forEach((item) => {
+        if (item === "name") return;
+
+        let itemText = item.replaceAll("_", " ");
+        itemText = itemText.charAt(0).toUpperCase() + itemText.slice(1);
+        itemText = itemText.split(" ");
+        unit = itemText.pop();
+        if (unit.length > 4) itemText = unit;
+        else {
+          unit = ` (${unit})`;
+          itemText = itemText.join(" ") + unit;
+        }
+
+        const row = document.createElement("tr");
+
+        const name = document.createElement("td");
+        const value = document.createElement("td");
+
+        name.textContent = itemText;
+        value.textContent = nutrition[item];
+
+        row.appendChild(name);
+        row.appendChild(value);
+
+        predictedTableBody.appendChild(row);
+      });
+    }
+
+    predictedOutput.innerText = label;
+    predictionIntro.classList.add("hidden");
     predictionContainer.classList.remove("hidden");
   } catch (err) {
     console.error(err);

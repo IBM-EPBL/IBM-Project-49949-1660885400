@@ -64,14 +64,26 @@
             </div>
           </div>
           <div class="result-container">
-            <p>WE USE MACHINE LEARNING MODAL TO CLASSIFY YOUR IMAGE!</p>
-            <p>
-              Machine intelligence is the last invention that humanity will ever
-              need to make
-            </p>
+            <div data-item="prediction-intro">
+              <p>WE USE MACHINE LEARNING MODAL TO CLASSIFY YOUR IMAGE!</p>
+              <p>
+                Machine intelligence is the last invention that humanity will
+                ever need to make
+              </p>
+            </div>
             <div class="hidden" data-item="prediction-container">
               <p>The provided image is classified as:</p>
-              <h2 data-item="predicted-output"></h2>
+              <h2></h2>
+
+              <table data-item="prediction-table" class="hidden">
+                <thead>
+                  <tr>
+                    <th>Nutrition</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </div>
             <div>
               <button class="secondary hidden" data-item="change-image">

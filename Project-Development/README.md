@@ -14,6 +14,8 @@ Now create a .env file and add the following
 
 ```
 DEBUG=True
+API_KEY="YOUR_API_KEY"
+API_HOST="API_HOST (probably the RAPID API)"
 ```
 
 Create a virtual environment and activate it by (for linux)
@@ -42,5 +44,7 @@ Now just run the `run.py` file using python
 ```
 python3 run.py
 ```
+
+<strong> Note: </strong> make sure you have a `uploads` folder created inside the `Flask` directory before running the application
 
 Visit [http://localhost:8080](http://localhost:8080) to see the magic !!

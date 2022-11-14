@@ -1,12 +1,20 @@
 from flask import Flask, render_template, request
 from keras.models import load_model
 from keras.preprocessing.image import image_utils
-from os import path
+from os import path, environ
 from requests import get
 import numpy as np
 
+API_KEY = environ.get("API_KEY")
+API_HOST = environ.get("API_HOST")
+
 app = Flask(__name__)
 model = load_model('./model.h5')
+url = "https://calorieninjas.p.rapidapi.com/v1/nutrition"
+headers = {
+	"X-RapidAPI-Key": API_KEY,
+	"X-RapidAPI-Host": API_HOST
+}
 print("\nModel loaded\n")
 
 def save_image(file):
@@ -42,6 +50,14 @@ PREDICTIONS:
     print(f"PREDICTION RESULT: {predicted_label}\n")
     return predicted_label
 
+def get_nutrition_value(fruit):
+    response = get(url, headers=headers, params={"query": fruit})
+    data = response.json()
+    items = data.get('items', [])
+    item = items[0] if len(items) > 0 else None
+
+    print(f"\nRESPONSE: {item}\n")
+    return item
 
 @app.route('/')
 def home_route():
@@ -56,4 +72,6 @@ def predict_route():
     file_path = save_image(file)
     prediction = predict(file_path)
 
-    return {"label": prediction}
+    nutrition = get_nutrition_value(prediction)
+
+    return {"label": prediction, 'nutrition': nutrition}
