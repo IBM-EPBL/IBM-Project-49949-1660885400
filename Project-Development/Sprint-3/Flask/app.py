@@ -40,8 +40,8 @@ def home_route():
     if not current_user.is_authenticated:
         return redirect("/login")
 
-    email = current_user.email
-    return render_template('index.html', email=email)
+    username = current_user.username
+    return render_template('index.html', username=username)
 
 @app.route('/register', methods=['GET','POST'])
 def register_route():
@@ -76,8 +76,9 @@ def predict_route():
     if request.method != "POST":
         return render_template('index.html')
 
+    user_folder = f"{current_user.id}_{current_user.username}"
     file = request.files["file"]
-    file_path = save_image(file)
+    file_path = save_image(file, user_folder)
     prediction = predict(file_path)
 
     nutrition = get_nutrition_value(prediction)

@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from keras.preprocessing.image import image_utils
 from keras.models import load_model
 from requests import get
-from os import path
+from os import path, makedirs
 from functools import wraps
 from flask_login import login_user as flask_login_user
 import numpy as np
@@ -16,9 +16,18 @@ from constants import API_HEADERS, API_URL, SECRET_KEY
 model = load_model('./model.h5')
 print("\nModel loaded\n")
 
-def save_image(file):
+def save_image(file, user_folder):
     root_path = path.dirname(__file__)
-    file_path = path.join(root_path, 'uploads', file.filename)
+
+    # creating upload folder if not exists
+    if not path.exists(f"{root_path}/uploads"):
+        makedirs(f"{root_path}/uploads")
+
+    # creating user folder if not exists
+    if not path.exists(f"{root_path}/uploads/{user_folder}"):
+        makedirs(f"{root_path}/uploads/{user_folder}")
+
+    file_path = path.join(root_path, 'uploads', user_folder, file.filename)
     file.save(file_path)
 
     print(f"\nFILE SAVED: {file.filename} at {file_path}\n")
