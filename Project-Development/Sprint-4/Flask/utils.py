@@ -18,6 +18,7 @@ print("\nModel loaded\n")
 
 def save_image(file, user_folder):
     root_path = path.dirname(__file__)
+    root_path = path.join(root_path, 'static')
 
     # creating upload folder if not exists
     if not path.exists(f"{root_path}/uploads"):
@@ -82,3 +83,8 @@ def login_user(User, email, password):
         return True
 
     return False
+
+def save_prediction(db, Prediction, user_id, image, prediction):
+    prediction = Prediction(id=str(uuid.uuid4()), user_id=user_id, image=image, prediction=prediction)
+    db.session.add(prediction)
+    db.session.commit()

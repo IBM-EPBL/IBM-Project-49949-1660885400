@@ -2,5 +2,5 @@
 .env
 .flaskenv
 __pycache__
-/uploads
+static/uploads
 *.db
