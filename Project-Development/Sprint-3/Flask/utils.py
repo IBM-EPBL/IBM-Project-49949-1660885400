@@ -5,6 +5,7 @@ from keras.models import load_model
 from requests import get
 from os import path
 from functools import wraps
+from flask_login import login_user as flask_login_user
 import numpy as np
 import uuid
 import datetime
@@ -57,36 +58,18 @@ def get_nutrition_value(fruit):
     print(f"\nRESPONSE: {item}\n")
     return item
 
-def auth_middleware(func):
-    @wraps
-    def decorator(User, *args, **kwargs):
-        token = None
-        if 'Authorization' in request.headers:
-            token = request.headers['Authorization']
-
-        if not token:
-            return {'message': 'Token is missing!'}, 401
-
-        try:
-            data = jwt.decode(token, SECRET_KEY)
-            current_user = User.query.filter_by(id=data['id']).first()
-        except:
-            return {'message': 'Token is invalid!'}, 401
-
-        return func(current_user, *args, **kwargs)
-    
-    return decorator
-
-def register_user(db, User, email, password):
+def register_user(db, User, username, email, password):
     hashed_password = generate_password_hash(password, method='sha256')
 
-    user = User(id= str(uuid.uuid4()), email=email, password=hashed_password)
+    user = User(id= str(uuid.uuid4()), username=username, email=email, password=hashed_password)
     db.session.add(user)
     db.session.commit()
+    flask_login_user(user)
 
 def login_user(User, email, password):
     user = User.query.filter_by(email=email).first()
     if check_password_hash(user.password, password):
+        flask_login_user(user)
         return True
 
     return False
